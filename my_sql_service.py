@@ -2,7 +2,6 @@ import mysql.connector
 import time as t
 
 
-
 class MySqlService:
     def __init__(self):
         self.allDatabases = None
@@ -20,17 +19,36 @@ class MySqlService:
             print(f"{i + 1} - {v[0]}")
         self.selectDatabase()
 
+    def showDatabaseMenu(self):
+        while True:
+            print("1. Tablelar ro'yxatini olish 2.Table qo'shish  3. Orqaga qaytish")
+            databaseMenuDecision = int(input("Kerakli menuni tanlang >>> "))
+            if databaseMenuDecision == 1:
+                self.showTables()
+            elif databaseMenuDecision == 2:
+                self.createTable()
+            else:
+                break
+
+    def createTable(self):
+        nameOfTable = input("Table nomini kiriting >>> ")
+        print("Table yaratilmoqda...")
+        t.sleep(2)
+        print("Oz qoldi...")
+        t.sleep(1)
+        self.cursor.execute(f"Create table {nameOfTable} (id serial);")
+        print(f"{nameOfTable} muvaffaqqiyatli yaratildi")
+
 
     def showTables(self):
         self.cursor.execute("Show tables;")
-        print(self.cursor.fetchall())
-
-
+        for i, v in enumerate(self.cursor.fetchall()):
+            print(f"{i+1} - {v[0]}")
 
     def selectDatabase(self):
         selectedDb = int(input("Kerakli database idsini yozing  "))
-        self.cursor.execute(f"Use {self.allDatabases[selectedDb-1][0]};")
-        self.showTables()
+        self.cursor.execute(f"Use {self.allDatabases[selectedDb - 1][0]};")
+        self.showDatabaseMenu()
 
     def createDatabase(self):
         dbName = input("Database uchun nom kiriting: ")

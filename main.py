@@ -11,11 +11,7 @@ while True:
     if firstDecision == 1:
         mySqlService.showDatabases()
 
-
     if firstDecision == 2:
         mySqlService.createDatabase()
     if firstDecision == 3:
         break
-
-
-
